@@ -3,17 +3,17 @@ kind: AppProject
 metadata:
   name: platform-apps
   namespace: argocd
+
 spec:
-  description: "High-trust project for core cluster infrastructure"
-  
+
   sourceRepos:
-    - 'https://github.com/chilliMacaw/lake-homelab.git'
-    - 'https://charts.jetstack.io'
-    
+    - https://github.com/chilliMacaw/lake-homelab.git
+    - https://charts.jetstack.io
+
   destinations:
-    - server: 'https://kubernetes.default.svc'
+    - server: https://kubernetes.default.svc
       namespace: '*'
-      
+
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
