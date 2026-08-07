@@ -1,0 +1,58 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: global-allow-dns
+spec:
+  endpointSelector: {}
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: global-restrict-external-egress
+spec:
+  endpointSelector:
+      matchExpressions:
+        - key: io.kubernetes.pod.namespace
+          operator: NotIn
+          values:
+            - kube-system
+            - kube-public
+            - kube-node-lease
+            - cilium-secrets
+            - argocd
+  egress:
+    - toEntities:
+        - cluster
+    - toCIDRs:
+        - "192.168.178.0/24"
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: global-default-deny-ingress
+spec:
+  endpointSelector:
+      matchExpressions:
+        - key: io.kubernetes.pod.namespace
+          operator: NotIn
+          values:
+            - kube-system
+            - kube-public
+            - kube-node-lease
+            - cilium-secrets
+            - argocd
+  ingress: []

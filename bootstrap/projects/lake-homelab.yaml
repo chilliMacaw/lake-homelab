@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-apps
+  namespace: argocd
+spec:
+  description: "High-trust project for core cluster infrastructure"
+  
+  sourceRepos:
+    - 'https://github.com/chilliMacaw/lake-homelab.git'
+    - 'https://charts.jetstack.io'
+    
+  destinations:
+    - server: 'https://kubernetes.default.svc'
+      namespace: '*'
+      
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: tenant-apps
+  namespace: argocd
+spec:
+  sourceRepos:
+    - 'https://github.com/chilliMacaw/lake-homelab.git'
+    
+  destinations:
+    - server: 'https://kubernetes.default.svc'
+      namespace: '!kube-system'
+    - server: 'https://kubernetes.default.svc'
+      namespace: '!argocd'
+    - server: 'https://kubernetes.default.svc'
+      namespace: '!cilium-secrets'
+
+    - server: 'https://kubernetes.default.svc'
+      namespace: '*'
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+      
