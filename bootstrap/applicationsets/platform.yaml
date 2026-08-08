@@ -9,7 +9,7 @@ spec:
         repoURL: 'https://github.com/chilliMacaw/lake-homelab.git'
         revision: HEAD
         directories:
-          - path: 'platfrom/*'
+          - path: 'platform/*'
           
   template:
     metadata:

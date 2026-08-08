@@ -1,0 +1,16 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-cert-manager-internal
+  namespace: cert-manager
+spec:
+  endpointSelector: {}
+
+  ingress:
+    - fromEndpoints:
+        - {}
+
+  egress:
+    - toEndpoints:
+        - {}

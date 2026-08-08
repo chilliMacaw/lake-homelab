@@ -9,6 +9,7 @@ spec:
   sourceRepos:
     - https://github.com/chilliMacaw/lake-homelab.git
     - https://charts.jetstack.io
+    - quay.io/jetstack/charts
 
   destinations:
     - server: https://kubernetes.default.svc
